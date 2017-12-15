@@ -1,0 +1,122 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Desquared Calculator</title>
+		<link rel="icon" type="image/ico" href="favicon.ico">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="calculator.css">
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+		
+	</head>
+	
+	<body id="body">
+
+		<div ng-app="calculator" ng-controller="myCtrl" class="container" tabindex="0" ng-keypress="pressKey('number', $event.key)">
+			
+			<!-- Screen and Convert_keys Row -->
+			<div class="row" >
+			
+				<!-- Left column: History -->
+				<div class="col-xs-9 nopadding">
+					<p id="history" ng-bind="history"></p>
+					<p id="result" ng-bind="result"></p>
+				</div>
+				
+				<!-- Right column: Convert Key 1 -->
+				<div class="col-xs-3 convert_keys_container ">
+					<button class=" function key convert" ng-click="pressKey('convert', {from: current_currencies['currency_2'], to: current_currencies['currency_1'], rate:current_currencies['currency_2_rate']})">
+						{{current_currencies['currency_2']}} to {{current_currencies['currency_1']}}
+					</button >
+					<button class=" function key convert" ng-click="pressKey('convert', {from: current_currencies['currency_1'], to: current_currencies['currency_2'], rate:current_currencies['currency_1_rate']})">
+						{{current_currencies['currency_1']}} to {{current_currencies['currency_2']}}
+					</button >
+				</div>
+			
+			</div>
+			
+		
+		<!-- Calculator Keys -->
+		<div id="calculator_keys">
+			<div class="row" >
+				<div id="keys_container" class="col-xs-9">
+				
+					<!-- Row 1: Memory keys -->
+					<div class="key_row">
+						<button class="function key" ng-click="pressKey('memory_op', 'MC')">MC</button >
+						<button class="function key"ng-click="pressKey('memory_op', 'MR')">MR</button >
+						<button class="function key" ng-click="pressKey('memory_op', 'M+')">M+</button >
+						<button class="function key" ng-click="pressKey('memory_op', 'M-')">M-</button >
+						<button class="function key" ng-click="pressKey('memory_op', 'MS')">MS</button >
+					</div>
+					
+					<!-- Row 2: Function keys -->
+					<div class="key_row">
+						<button class="function key" ng-click="pressKey('data_op', 'CE')">CE</button >
+						<button class="function key"ng-click="pressKey('data_op', 'C')">C</button >
+						<button class="function key" ng-click="pressKey('data_op', 'Backspace')">&#9003;</button >
+						<button class="function key" ng-click="pressKey('single_op', '%')">%</button >
+						<button class="function key" ng-click="pressKey('double_op', 'divide')">&divide;</button >
+					</div>
+					
+					<!-- Row 3: Number keys 789 -->
+					<div class="key_row">
+						<button class="number key" ng-click="pressKey('number', 7)">7</button >
+						<button class="number key"ng-click="pressKey('number', 8)">8</button >
+						<button class="number key" ng-click="pressKey('number', 9)">9</button >
+						<button class="function key" ng-click="pressKey('single_op', 'sqrt')">&radic;</button >
+						<button class="function key" ng-click="pressKey('double_op', 'times')">&times;</button >
+					</div>
+					
+					<!-- Row 4: Number keys 456 -->
+					<div class="key_row">
+						<button class="number key" ng-click="pressKey('number', 4)">4</button >
+						<button class="number key"ng-click="pressKey('number', 5)">5</button >
+						<button class="number key" ng-click="pressKey('number', 6)">6</button >
+						<button class="function key" ng-click="pressKey('single_op', 'squared')">&chi;&sup2;</button >
+						<button class="function key" ng-click="pressKey('double_op', '-')">-</button >
+					</div>
+					
+					<!-- Row 5: Number keys 123 -->
+					<div class="key_row">
+						<button class="number key" ng-click="pressKey('number', 1)">1</button >
+						<button class="number key"ng-click="pressKey('number', 2)">2</button >
+						<button class="number key" ng-click="pressKey('number', 3)">3</button >
+						<button class="function key" ng-click="pressKey('single_op', 'reverse')"><sup>1</sup>&frasl;<sub>&chi;</sub></button >
+						<button class="function key" ng-click="pressKey('double_op', '+')">+</button >
+					</div>
+					
+					<!-- Row 6: Number key 0 -->
+					<div class="key_row">
+						<button class="function key" ng-click="pressKey('single_op', 'negate')">&plusmn;</button >
+						<button class="number key"ng-click="pressKey('number', 0)">0</button >
+						<button class="number key" ng-click="pressKey('number', '.')">.</button >
+						<button class="function key double" ng-click="pressKey('single_op', '=')">=</button >
+					</div>
+					
+				</div>
+				<div class="col-xs-3 nopadding" >
+					<div class="selectors" >
+					
+						<select class="selector" ng-model="current_currencies['currency_1']" ng-options="currency for currency in currency_list" ng-change="getRates()"></select>
+						<select class="selector" ng-model="current_currencies['currency_2']" ng-options="currency for currency in currency_list" ng-change="getRates()"></select>
+						<p>1 {{current_currencies['currency_1']}} = {{current_currencies['currency_1_rate']}} {{current_currencies['currency_2']}} </p>
+						<p>1 {{current_currencies['currency_2']}} = {{current_currencies['currency_2_rate']}} {{current_currencies['currency_1']}} </p>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Error Message Row -->
+			<div class="row " >
+				<div class="col-xs-12 key_container">
+					<p ng-bind="error_msg"></p>
+				</div>
+			</div>
+				
+		</div>
+
+		<script src="calculatorController.js"></script>
+	</body>
+
+</html>
